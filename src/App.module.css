@@ -10,7 +10,15 @@
   width: 80%;
   padding: 16px;
 }
-
+.wrapper{
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tasksWrappers{
+  min-height: 50vh;
+}
 .formContainer {
   display: flex;
   flex-direction: column;

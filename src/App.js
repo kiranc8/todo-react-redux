@@ -23,7 +23,7 @@ import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
 const App = () => {
   // State variables using React Hooks
@@ -87,7 +87,6 @@ const App = () => {
     }
   };
   return (
-
     <div className={styles.container}>
       <Typography variant="h4" component="h2" gutterBottom>
         My Todo List
@@ -121,82 +120,98 @@ const App = () => {
           </Paper>
         </Box>
 
-        {/* Todo items */}
-        {tasks.map((task) => (
-          <div
-            key={task.id}
-            className={`${styles.todoItem} ${task.completed ? styles.todoItemCompleted : ""
-              }`}
-          >
-            <div>
-              {/* Checkbox for completing a task */}
-              <Checkbox
-                checked={task.completed}
-                size="small"
-                onClick={() => handleCompleteTask(task.id)}
-                icon={<RadioButtonUncheckedOutlinedIcon />} // Icon to display when the checkbox is unchecked
-                checkedIcon={
-                  <CheckCircleOutlineIcon style={{ color: "green" }} />
-                }
-              />
-            </div>
-            {/* Task title (editable when in editing mode) */}
-            {editingTaskId === task.id ? (
-              <TextField
-                className={styles.title}
-                value={updatedTitle}
-                onBlur={() => handleInputBlur(task.id)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && updatedTitle !== "") {
-                    handleInputBlur(task.id);
-                  }
-                }}
-                onChange={handleInputChange}
-                autoFocus
-                InputProps={{
-                  style: { border: "1px solid lightgray" },
-                }}
-              />
+        {
+          <div>
+            {tasks.length === 0 ? (
+              <div className={styles.wrapper}>You don't have any tasks</div>
             ) : (
-              <div className={styles.title} onDoubleClick={() => handleDoubleClick(task.id)}>
-                {task.name}
+              <div className={styles.tasksWrappers}>
+                {tasks.map((task) => (
+                  <div
+                    key={task.id}
+                    className={`${styles.todoItem} ${
+                      task.completed ? styles.todoItemCompleted : ""
+                    }`}
+                  >
+                    <div>
+                      {/* Checkbox for completing a task */}
+                      <Checkbox
+                        checked={task.completed}
+                        size="small"
+                        onClick={() => handleCompleteTask(task.id)}
+                        icon={<RadioButtonUncheckedOutlinedIcon />} // Icon to display when the checkbox is unchecked
+                        checkedIcon={
+                          <CheckCircleOutlineIcon style={{ color: "green" }} />
+                        }
+                      />
+                    </div>
+                    {/* Task title (editable when in editing mode) */}
+                    {editingTaskId === task.id ? (
+                      <TextField
+                        className={styles.title}
+                        value={updatedTitle}
+                        onBlur={() => handleInputBlur(task.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && updatedTitle !== "") {
+                            handleInputBlur(task.id);
+                          }
+                        }}
+                        onChange={handleInputChange}
+                        autoFocus
+                        InputProps={{
+                          style: { border: "1px solid lightgray" },
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className={styles.title}
+                        onDoubleClick={() => handleDoubleClick(task.id)}
+                      >
+                        {task.name}
+                      </div>
+                    )}
+
+                    {/* Priority selection dropdown */}
+                    <div>
+                      <Select
+                        labelId="simple-select-label"
+                        id="simple-select"
+                        value={task.priority}
+                        onChange={(e) =>
+                          handleSetPriority(task.id, e.target.value)
+                        }
+                      >
+                        <MenuItem value="low">
+                          <Chip label="Low" color="success" />
+                        </MenuItem>
+                        <MenuItem value="medium">
+                          <Chip label="Medium" color="warning" />
+                        </MenuItem>
+                        <MenuItem value="high">
+                          <Chip label="High" color="error" />
+                        </MenuItem>
+                      </Select>
+                    </div>
+                    <div>
+                      {/* Edit button */}
+                      <IconButton>
+                        <EditIcon onClick={() => handleDoubleClick(task.id)} />
+                      </IconButton>
+                      {/* Delete button */}
+                      <IconButton aria-label="delete">
+                        <ClearIcon
+                          className={styles.deleteButton}
+                          onClick={() => handleDeleteTask(task.id)}
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
-
-            {/* Priority selection dropdown */}
-            <div>
-              <Select
-                labelId="simple-select-label"
-                id="simple-select"
-                value={task.priority}
-                onChange={(e) => handleSetPriority(task.id, e.target.value)}
-              >
-                <MenuItem value="low">
-                  <Chip label="Low" color="success" />
-                </MenuItem>
-                <MenuItem value="medium">
-                  <Chip label="Medium" color="warning" />
-                </MenuItem>
-                <MenuItem value="high">
-                  <Chip label="High" color="error" />
-                </MenuItem>
-              </Select>
-            </div>
-            <div>
-              {/* Edit button */}
-              <IconButton>
-                <EditIcon onClick={() => handleDoubleClick(task.id)} />
-              </IconButton>
-              {/* Delete button */}
-              <IconButton aria-label="delete">
-                <ClearIcon
-                  className={styles.deleteButton}
-                  onClick={() => handleDeleteTask(task.id)}
-                />
-              </IconButton>
-            </div>
           </div>
-        ))}
+        }
+
         <Divider sx={{ my: 2 }} />
         {/* Task count and completion status */}
         <Typography
@@ -211,7 +226,6 @@ const App = () => {
         </Typography>
       </Paper>
     </div>
-
   );
 };
 
