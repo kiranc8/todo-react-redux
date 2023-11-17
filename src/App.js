@@ -79,6 +79,7 @@ const App = () => {
 
   // Function to handle input blur (when editing is done)
   const handleInputBlur = (id) => {
+    setUpdatedTitle("");
     // Disable editing mode
     setEditingTaskId(null);
     // If the updated title is not empty, call the function to edit the task
