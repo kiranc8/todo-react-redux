@@ -149,7 +149,7 @@ const App = () => {
                     {editingTaskId === task.id ? (
                       <TextField
                         className={styles.title}
-                        value={task.name}
+                        value={updatedTitle?updatedTitle : task.name}
                         onBlur={() => handleInputBlur(task.id)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && updatedTitle !== "") {
